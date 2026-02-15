@@ -16,6 +16,9 @@ from sklearn.metrics import (
     confusion_matrix, classification_report
 )
 
+# Page config for compact view
+st.set_page_config(page_title="Credit Risk ML", layout="wide", initial_sidebar_state="collapsed")
+
 # Page title
 st.title("Credit Risk Classification System")
 st.write("Upload your customer data and select a model to predict credit risk")
@@ -114,41 +117,31 @@ st.write("---")
 
 # Sidebar for downloading test data
 st.sidebar.header("Download Test Data")
-st.sidebar.write("Download sample test data to try the app:")
+st.sidebar.write("Download test data (from train-test split):")
 
 # Load test data for download
 try:
-    test_data_with_labels = pd.read_csv('test_data_with_labels.csv')
-    test_data_features = pd.read_csv('test_data_features.csv')
+    test_data_with_labels = pd.read_csv('data/test_data_with_labels.csv')
 
-    # Download buttons
+    # Download button
     csv_with_labels = test_data_with_labels.to_csv(index=False).encode('utf-8')
     st.sidebar.download_button(
-        label="Download Test Data (with labels)",
+        label="📥 Download Test Data",
         data=csv_with_labels,
         file_name="test_data_with_labels.csv",
         mime="text/csv"
     )
 
-    csv_features = test_data_features.to_csv(index=False).encode('utf-8')
-    st.sidebar.download_button(
-        label="Download Test Data (features only)",
-        data=csv_features,
-        file_name="test_data_features.csv",
-        mime="text/csv"
-    )
-
-    st.sidebar.write(f"Test samples available: {len(test_data_features)}")
-    st.sidebar.info("📝 Test data is RAW (before preprocessing). The app will handle preprocessing automatically.")
+    st.sidebar.caption(f"{len(test_data_with_labels)} test samples available")
 except:
-    st.sidebar.warning("Test data files not found")
+    st.sidebar.warning("Test data file not found")
 
 st.sidebar.write("---")
-st.sidebar.info("Upload RAW CSV data. The app will automatically handle preprocessing and feature engineering.")
+st.sidebar.caption("💡 Upload RAW CSV data. The app handles preprocessing automatically.")
 
 # Step 1: Upload CSV file
-st.header("Step 1: Upload CSV File")
-st.write("Upload your raw customer data. The app will automatically preprocess it.")
+st.subheader("Step 1: Upload CSV File")
+st.caption("Upload your raw customer data. The app will automatically preprocess it.")
 uploaded_file = st.file_uploader("Choose a CSV file", type=['csv'])
 
 if uploaded_file is not None:
@@ -195,16 +188,14 @@ if uploaded_file is not None:
         st.write("---")
 
         # Step 2: Select model
-        st.header("Step 2: Select Model")
+        st.subheader("Step 2: Select Model")
         selected_model = st.selectbox(
             "Choose a machine learning model:",
             list(models.keys())
         )
 
-        st.write("---")
-
         # Step 3: Make predictions
-        st.header("Step 3: Make Predictions")
+        st.subheader("Step 3: Make Predictions")
 
         if st.button("Predict"):
             # Scale the data
@@ -262,8 +253,6 @@ if uploaded_file is not None:
                 mime="text/csv"
             )
 
-            st.write("---")
-
             # Show prediction summary
             st.subheader("Prediction Summary")
             col1, col2 = st.columns(2)
@@ -283,8 +272,7 @@ if uploaded_file is not None:
 
             # If labels exist, calculate and display metrics
             if has_labels:
-                st.write("---")
-                st.header("Evaluation Metrics")
+                st.subheader("Evaluation Metrics")
 
                 # Calculate metrics using encoded values
                 accuracy = accuracy_score(y_true_encoded, predictions)
