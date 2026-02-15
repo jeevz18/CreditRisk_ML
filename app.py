@@ -157,89 +157,89 @@ with col_right:
             # Prediction summary (top)
             st.subheader(f"Results: {selected_model}")
 
-        col1, col2, col3 = st.columns(3)
+            col1, col2, col3 = st.columns(3)
 
-        if target_encoder is not None:
-            pred_labels = target_encoder.inverse_transform(predictions)
-            pred_counts = pd.Series(pred_labels).value_counts()
-            good_count = pred_counts.get('good', 0)
-            bad_count = pred_counts.get('bad', 0)
-        else:
-            good_count = (predictions == 1).sum()
-            bad_count = (predictions == 0).sum()
-
-        col1.metric("Good Credit", good_count, delta=f"{good_count/len(predictions)*100:.1f}%")
-        col2.metric("Bad Credit", bad_count, delta=f"{bad_count/len(predictions)*100:.1f}%")
-        col3.metric("Total", len(predictions))
-
-        # Metrics (if labels exist)
-        if has_labels:
-            if y_true.dtype == 'object':
-                y_true_encoded = target_encoder.transform(y_true) if target_encoder else LabelEncoder().fit_transform(y_true)
+            if target_encoder is not None:
+                pred_labels = target_encoder.inverse_transform(predictions)
+                pred_counts = pd.Series(pred_labels).value_counts()
+                good_count = pred_counts.get('good', 0)
+                bad_count = pred_counts.get('bad', 0)
             else:
-                y_true_encoded = y_true.values
+                good_count = (predictions == 1).sum()
+                bad_count = (predictions == 0).sum()
 
-            acc = accuracy_score(y_true_encoded, predictions)
-            prec = precision_score(y_true_encoded, predictions, zero_division=0)
-            rec = recall_score(y_true_encoded, predictions, zero_division=0)
-            f1 = f1_score(y_true_encoded, predictions, zero_division=0)
-            auc = roc_auc_score(y_true_encoded, probabilities)
-            mcc = matthews_corrcoef(y_true_encoded, predictions)
+            col1.metric("Good Credit", good_count, delta=f"{good_count/len(predictions)*100:.1f}%")
+            col2.metric("Bad Credit", bad_count, delta=f"{bad_count/len(predictions)*100:.1f}%")
+            col3.metric("Total", len(predictions))
 
-            st.subheader("📊 Evaluation Metrics")
-            met1, met2, met3, met4, met5, met6 = st.columns(6)
-            met1.metric("Accuracy", f"{acc:.3f}")
-            met2.metric("Precision", f"{prec:.3f}")
-            met3.metric("Recall", f"{rec:.3f}")
-            met4.metric("F1", f"{f1:.3f}")
-            met5.metric("AUC", f"{auc:.3f}")
-            met6.metric("MCC", f"{mcc:.3f}")
+            # Metrics (if labels exist)
+            if has_labels:
+                if y_true.dtype == 'object':
+                    y_true_encoded = target_encoder.transform(y_true) if target_encoder else LabelEncoder().fit_transform(y_true)
+                else:
+                    y_true_encoded = y_true.values
 
-            # Confusion Matrix
-            cm = confusion_matrix(y_true_encoded, predictions)
-            fig, ax = plt.subplots(figsize=(4, 3))
-            sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', ax=ax, cbar=False)
-            ax.set_xlabel('Predicted')
-            ax.set_ylabel('Actual')
-            ax.set_title('Confusion Matrix')
+                acc = accuracy_score(y_true_encoded, predictions)
+                prec = precision_score(y_true_encoded, predictions, zero_division=0)
+                rec = recall_score(y_true_encoded, predictions, zero_division=0)
+                f1 = f1_score(y_true_encoded, predictions, zero_division=0)
+                auc = roc_auc_score(y_true_encoded, probabilities)
+                mcc = matthews_corrcoef(y_true_encoded, predictions)
 
-            # Show confusion matrix in a compact column
-            cm_col1, cm_col2 = st.columns([1, 2])
-            with cm_col1:
-                st.pyplot(fig, use_container_width=True)
-            plt.close()
+                st.subheader("📊 Evaluation Metrics")
+                met1, met2, met3, met4, met5, met6 = st.columns(6)
+                met1.metric("Accuracy", f"{acc:.3f}")
+                met2.metric("Precision", f"{prec:.3f}")
+                met3.metric("Recall", f"{rec:.3f}")
+                met4.metric("F1", f"{f1:.3f}")
+                met5.metric("AUC", f"{auc:.3f}")
+                met6.metric("MCC", f"{mcc:.3f}")
 
-        # Predictions table (compact)
-        st.subheader("🎯 Predictions")
+                # Confusion Matrix
+                cm = confusion_matrix(y_true_encoded, predictions)
+                fig, ax = plt.subplots(figsize=(4, 3))
+                sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', ax=ax, cbar=False)
+                ax.set_xlabel('Predicted')
+                ax.set_ylabel('Actual')
+                ax.set_title('Confusion Matrix')
 
-        if target_encoder is not None:
-            pred_labels = target_encoder.inverse_transform(predictions)
-            results = pd.DataFrame({
-                'Prediction': pred_labels,
-                'Probability': probabilities.round(3)
-            })
-        else:
-            results = pd.DataFrame({
-                'Prediction': predictions,
-                'Probability': probabilities.round(3)
-            })
+                # Show confusion matrix in a compact column
+                cm_col1, cm_col2 = st.columns([1, 2])
+                with cm_col1:
+                    st.pyplot(fig, use_container_width=True)
+                plt.close()
 
-        if has_labels:
-            results['Actual'] = y_true.values
-            results['Match'] = ['✓' if predictions[i] == y_true_encoded[i] else '✗' for i in range(len(predictions))]
+            # Predictions table (compact)
+            st.subheader("🎯 Predictions")
 
-        # Show first 10 rows
-        st.dataframe(results.head(10), use_container_width=True, height=250)
+            if target_encoder is not None:
+                pred_labels = target_encoder.inverse_transform(predictions)
+                results = pd.DataFrame({
+                    'Prediction': pred_labels,
+                    'Probability': probabilities.round(3)
+                })
+            else:
+                results = pd.DataFrame({
+                    'Prediction': predictions,
+                    'Probability': probabilities.round(3)
+                })
 
-        # Download button
-        csv = results.to_csv(index=False).encode('utf-8')
-        st.download_button(
-            label="📥 Download All Predictions",
-            data=csv,
-            file_name="predictions.csv",
-            mime="text/csv",
-            use_container_width=True
-        )
+            if has_labels:
+                results['Actual'] = y_true.values
+                results['Match'] = ['✓' if predictions[i] == y_true_encoded[i] else '✗' for i in range(len(predictions))]
+
+            # Show first 10 rows
+            st.dataframe(results.head(10), use_container_width=True, height=250)
+
+            # Download button
+            csv = results.to_csv(index=False).encode('utf-8')
+            st.download_button(
+                label="📥 Download All Predictions",
+                data=csv,
+                file_name="predictions.csv",
+                mime="text/csv",
+                use_container_width=True
+            )
 
         else:
             st.info("Click 'Predict' to see results")
