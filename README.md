@@ -4,7 +4,23 @@ Predict credit risk (good/bad) for loan applicants using machine learning to hel
 
 ## b. Dataset Description
 
-German Credit Data - 1000 customer records with 20 features for binary credit risk classification.
+**Dataset Name:** German Credit Data (UCI Machine Learning Repository)
+
+**Size:** 1000 customer records
+
+**Features:** 20 attributes including:
+- **Demographic Information:** Age, gender, employment status, residence duration
+- **Financial Status:** Checking account balance, savings account status, credit amount, installment rate
+- **Credit History:** Existing credits, payment history, purpose of credit
+- **Other Attributes:** Housing status, job type, number of dependents, telephone ownership
+
+**Target Variable:** Binary classification
+- Class 0: Bad Credit Risk (customer likely to default)
+- Class 1: Good Credit Risk (customer likely to repay)
+
+**Class Distribution:** Imbalanced dataset with 70% good credit and 30% bad credit cases
+
+**Data Characteristics:** Contains both categorical and numerical features requiring preprocessing including label encoding and feature scaling for optimal model performance.
 
 ## c. Models Used
 
