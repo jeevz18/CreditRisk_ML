@@ -97,7 +97,7 @@ st.title("Credit Risk Classification System")
 # Two-column layout
 col_left, col_right = st.columns([1, 2])
 
-# LEFT COLUMN: Download + Upload + Model Selection
+# LEFT COLUMN: Download + Upload
 with col_left:
     # Download test data
     st.subheader("📥 Download Test Data")
@@ -124,41 +124,38 @@ with col_left:
     if uploaded_file:
         st.success("✓ File uploaded")
 
-        st.write("")
-
-        # Model selection
+# RIGHT COLUMN: Model Selection + Results
+with col_right:
+    if uploaded_file is not None:
+        # Model selection at the top
         st.subheader("🤖 Select Model")
         selected_model = st.selectbox(
-            "Model:",
+            "Choose a machine learning model:",
             list(models.keys()),
             label_visibility="collapsed"
         )
 
         # Predict button
-        predict_btn = st.button("🎯 Predict", type="primary", use_container_width=True)
-    else:
-        predict_btn = False
+        predict_btn = st.button("🎯 Predict", type="primary")
 
-# RIGHT COLUMN: Results
-with col_right:
-    if uploaded_file is not None and predict_btn:
-        # Read and preprocess
-        df = pd.read_csv(uploaded_file)
-        target_col = preprocessing_info['target_col']
-        has_labels = target_col in df.columns
+        if predict_btn:
+            # Read and preprocess
+            df = pd.read_csv(uploaded_file)
+            target_col = preprocessing_info['target_col']
+            has_labels = target_col in df.columns
 
-        with st.spinner("Processing..."):
-            X_processed, y_true = preprocess_data(df, label_encoders, target_col, is_prediction=not has_labels)
-            X_processed = X_processed[feature_names]
-            X_test_scaled = scaler.transform(X_processed)
+            with st.spinner("Processing..."):
+                X_processed, y_true = preprocess_data(df, label_encoders, target_col, is_prediction=not has_labels)
+                X_processed = X_processed[feature_names]
+                X_test_scaled = scaler.transform(X_processed)
 
-            # Predict
-            model = models[selected_model]
-            predictions = model.predict(X_test_scaled)
-            probabilities = model.predict_proba(X_test_scaled)[:, 1]
+                # Predict
+                model = models[selected_model]
+                predictions = model.predict(X_test_scaled)
+                probabilities = model.predict_proba(X_test_scaled)[:, 1]
 
-        # Prediction summary (top)
-        st.subheader(f"Results: {selected_model}")
+            # Prediction summary (top)
+            st.subheader(f"Results: {selected_model}")
 
         col1, col2, col3 = st.columns(3)
 
@@ -198,6 +195,20 @@ with col_right:
             met5.metric("AUC", f"{auc:.3f}")
             met6.metric("MCC", f"{mcc:.3f}")
 
+            # Confusion Matrix
+            cm = confusion_matrix(y_true_encoded, predictions)
+            fig, ax = plt.subplots(figsize=(4, 3))
+            sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', ax=ax, cbar=False)
+            ax.set_xlabel('Predicted')
+            ax.set_ylabel('Actual')
+            ax.set_title('Confusion Matrix')
+
+            # Show confusion matrix in a compact column
+            cm_col1, cm_col2 = st.columns([1, 2])
+            with cm_col1:
+                st.pyplot(fig, use_container_width=True)
+            plt.close()
+
         # Predictions table (compact)
         st.subheader("🎯 Predictions")
 
@@ -230,7 +241,7 @@ with col_right:
             use_container_width=True
         )
 
-    elif uploaded_file is None:
-        st.info("👈 Upload a CSV file to get started")
+        else:
+            st.info("Click 'Predict' to see results")
     else:
-        st.info("Click 'Predict' to see results")
+        st.info("👈 Upload a CSV file to get started")
