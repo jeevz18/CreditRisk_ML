@@ -1,0 +1,358 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Assignment 2 Submission - Credit Risk ML</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            color: #333;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #34495e;
+            margin-top: 30px;
+            border-bottom: 2px solid #95a5a6;
+            padding-bottom: 5px;
+        }
+        h3 {
+            color: #7f8c8d;
+            margin-top: 20px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #3498db;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        ul, ol {
+            margin: 10px 0;
+            padding-left: 30px;
+        }
+        strong {
+            color: #2c3e50;
+        }
+        a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .checkmark {
+            color: #27ae60;
+            font-weight: bold;
+        }
+        hr {
+            border: none;
+            border-top: 2px solid #ecf0f1;
+            margin: 30px 0;
+        }
+    </style>
+</head>
+<body>
+<h1>Assignment 2 Submission - Credit Risk ML Classification</h1>
+<p><strong>Student Name:</strong> A. JEEVITHA
+<strong>Student ID:</strong> 2025AA05523
+<strong>Subject:</strong> ME7/Assignment 2: BHS Lab Issue
+<strong>Date:</strong> February 15, 2026</p>
+<hr />
+<h2>1. GitHub Repository Link</h2>
+<p><strong>Repository URL:</strong> https://github.com/jeevz18/CreditRisk_ML</p>
+<h3>Repository Contents:</h3>
+<ul>
+<li>✅ Complete source code</li>
+<li>✅ requirements.txt</li>
+<li>✅ README.md with project details</li>
+</ul>
+<hr />
+<h2>2. Live Streamlit App Link</h2>
+<p><strong>Streamlit App URL:</strong> https://creditriskml-3frd9ppjnjkgiygpeo9pur.streamlit.app/</p>
+<h3>Deployment Details:</h3>
+<ul>
+<li>✅ Deployed using Streamlit Community Cloud</li>
+<li>✅ Interactive frontend available</li>
+<li>✅ All 6 ML models accessible</li>
+<li>✅ Real-time credit risk predictions</li>
+<li>✅ Must open an interactive frontend when clicked</li>
+</ul>
+<hr />
+<h2>3. Project Overview</h2>
+<h3>a. Problem Statement</h3>
+<p>Predict credit risk (good/bad) for loan applicants using machine learning to help financial institutions make informed lending decisions and minimize default risk.</p>
+<h3>b. Dataset Description</h3>
+<p><strong>Dataset:</strong> German Credit Data from UCI Machine Learning Repository</p>
+<ul>
+<li><strong>Total Records:</strong> 1,000 customer records</li>
+<li><strong>Features:</strong> 20 features including:</li>
+<li>Demographic information (age, gender, etc.)</li>
+<li>Financial status (checking account, savings, employment)</li>
+<li>Loan details (amount, duration, purpose)</li>
+<li><strong>Target Variable:</strong> Binary classification</li>
+<li>Good Credit Risk = 1</li>
+<li>Bad Credit Risk = 0</li>
+<li><strong>Class Distribution:</strong> Imbalanced dataset with more good credit cases than bad</li>
+</ul>
+<h3>c. Models Used</h3>
+<table>
+<thead>
+<tr>
+<th>ML Model Name</th>
+<th>Accuracy</th>
+<th>AUC</th>
+<th>Precision</th>
+<th>Recall</th>
+<th>F1</th>
+<th>MCC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Logistic Regression</td>
+<td>0.6800</td>
+<td>0.7287</td>
+<td>0.8455</td>
+<td>0.6643</td>
+<td>0.7440</td>
+<td>0.3509</td>
+</tr>
+<tr>
+<td>Decision Tree</td>
+<td>0.6050</td>
+<td>0.6510</td>
+<td>0.7798</td>
+<td>0.6071</td>
+<td>0.6827</td>
+<td>0.1906</td>
+</tr>
+<tr>
+<td>KNN</td>
+<td>0.6850</td>
+<td>0.6565</td>
+<td>0.7421</td>
+<td>0.8429</td>
+<td>0.7893</td>
+<td>0.1811</td>
+</tr>
+<tr>
+<td>Naive Bayes</td>
+<td>0.6800</td>
+<td>0.7261</td>
+<td>0.8016</td>
+<td>0.7214</td>
+<td>0.7594</td>
+<td>0.2893</td>
+</tr>
+<tr>
+<td>Random Forest (Ensemble)</td>
+<td>0.7200</td>
+<td>0.7875</td>
+<td>0.8333</td>
+<td>0.7500</td>
+<td>0.7895</td>
+<td>0.3797</td>
+</tr>
+<tr>
+<td>XGBoost (Ensemble)</td>
+<td>0.7100</td>
+<td>0.7385</td>
+<td>0.8015</td>
+<td>0.7786</td>
+<td>0.7899</td>
+<td>0.3228</td>
+</tr>
+</tbody>
+</table>
+<h3>Model Performance Observations</h3>
+<table>
+<thead>
+<tr>
+<th>ML Model Name</th>
+<th>Observation about model performance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Logistic Regression</td>
+<td>Good baseline with balanced precision-recall. Lower recall indicates misses some bad credit cases.</td>
+</tr>
+<tr>
+<td>Decision Tree</td>
+<td>Lowest accuracy (60.5%). Prone to overfitting. Not recommended for deployment.</td>
+</tr>
+<tr>
+<td>KNN</td>
+<td>Best recall (84.3%) - catches most bad credit cases. Good for risk-averse lending.</td>
+</tr>
+<tr>
+<td>Naive Bayes</td>
+<td>Fast and simple. Decent performance with probabilistic predictions.</td>
+</tr>
+<tr>
+<td>Random Forest (Ensemble)</td>
+<td><strong>Best overall accuracy (72%) and AUC (78.75%)</strong>. Best balance of metrics. <strong>Recommended model for deployment</strong>.</td>
+</tr>
+<tr>
+<td>XGBoost (Ensemble)</td>
+<td>Second best (71%). Strong F1 score. Good alternative to Random Forest.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. Technical Implementation</h2>
+<h3>Technologies Used:</h3>
+<ul>
+<li><strong>Python 3.8+</strong></li>
+<li><strong>Machine Learning:</strong> scikit-learn, XGBoost</li>
+<li><strong>Web Framework:</strong> Streamlit</li>
+<li><strong>Data Processing:</strong> pandas, numpy</li>
+<li><strong>Visualization:</strong> matplotlib, seaborn</li>
+<li><strong>Model Persistence:</strong> joblib</li>
+</ul>
+<h3>Project Structure:</h3>
+<pre><code>CreditRisk_ML/
+├── data/
+│   └── credit_customers.csv          # German Credit dataset
+├── models/
+│   ├── logistic_regression_model.pkl
+│   ├── decision_tree_model.pkl
+│   ├── knn_model.pkl
+│   ├── naive_bayes_model.pkl
+│   ├── random_forest_model.pkl
+│   ├── xgboost_model.pkl
+│   ├── scaler.pkl
+│   ├── label_encoders.pkl
+│   └── preprocessing_info.pkl
+├── app.py                            # Streamlit web application
+├── credit_risk_notebook.py           # Training script
+├── credit_risk_notebook.ipynb        # Jupyter notebook
+├── requirements.txt                  # Python dependencies
+└── README.md                         # Project documentation
+</code></pre>
+<h3>Key Features:</h3>
+<h4>1. Data Preprocessing Pipeline</h4>
+<ul>
+<li>Automatic handling of categorical variables using Label Encoding</li>
+<li>Feature scaling using StandardScaler</li>
+<li>Train-test split (80-20) with stratification</li>
+</ul>
+<h4>2. Model Training</h4>
+<ul>
+<li>6 different ML algorithms trained and evaluated</li>
+<li>Comprehensive evaluation metrics:</li>
+<li>Accuracy, Precision, Recall, F1-Score</li>
+<li>AUC-ROC Score</li>
+<li>Matthews Correlation Coefficient (MCC)</li>
+</ul>
+<h4>3. Streamlit Web Application</h4>
+<ul>
+<li><strong>Interactive UI</strong> for credit risk prediction</li>
+<li><strong>Model selection dropdown</strong> - user can choose from 6 trained models</li>
+<li><strong>Input form</strong> for customer data entry</li>
+<li><strong>Real-time predictions</strong> with probability scores</li>
+<li><strong>Model performance metrics</strong> displayed for each model</li>
+<li><strong>Automatic preprocessing</strong> - handles raw input data</li>
+</ul>
+<hr />
+<h2>5. How to Run Locally</h2>
+<h3>Step 1: Clone Repository</h3>
+<pre><code class="language-bash">git clone https://github.com/jeevz18/CreditRisk_ML.git
+cd CreditRisk_ML
+</code></pre>
+<h3>Step 2: Install Dependencies</h3>
+<pre><code class="language-bash">pip install -r requirements.txt
+</code></pre>
+<h3>Step 3: Run Streamlit App</h3>
+<pre><code class="language-bash">streamlit run app.py
+</code></pre>
+<h3>Step 4: Access Application</h3>
+<p>Open browser at: <code>http://localhost:8501</code></p>
+<hr />
+<h2>6. Deployment Process</h2>
+<h3>GitHub Setup:</h3>
+<ol>
+<li>Created public GitHub repository</li>
+<li>Uploaded complete project with proper folder structure</li>
+<li>Ensured requirements.txt includes all dependencies</li>
+</ol>
+<h3>Streamlit Cloud Deployment:</h3>
+<ol>
+<li>Signed in to https://share.streamlit.io/ with GitHub</li>
+<li>Selected repository: <code>jeevz18/CreditRisk_ML</code></li>
+<li>Set main file: <code>app.py</code></li>
+<li>Deployed successfully</li>
+</ol>
+<hr />
+<h2>7. Results and Conclusion</h2>
+<h3>Best Performing Model: Random Forest</h3>
+<ul>
+<li><strong>Accuracy:</strong> 72%</li>
+<li><strong>AUC-ROC:</strong> 78.75%</li>
+<li><strong>F1-Score:</strong> 78.95%</li>
+</ul>
+<h3>Key Insights:</h3>
+<ol>
+<li>Ensemble methods (Random Forest, XGBoost) outperformed individual models</li>
+<li>Decision Tree showed signs of overfitting (lowest accuracy)</li>
+<li>KNN achieved highest recall, making it suitable for conservative lending</li>
+<li>Random Forest provides best overall balance for credit risk assessment</li>
+</ol>
+<h3>Business Impact:</h3>
+<ul>
+<li>Helps financial institutions automate credit risk assessment</li>
+<li>Reduces manual review time</li>
+<li>Improves lending decision accuracy by 72%</li>
+<li>Minimizes default risk through data-driven predictions</li>
+</ul>
+<hr />
+<h2>8. References</h2>
+<ol>
+<li><strong>Dataset Source:</strong> UCI Machine Learning Repository - German Credit Data</li>
+<li><strong>Streamlit Documentation:</strong> https://docs.streamlit.io/</li>
+<li><strong>Scikit-learn:</strong> https://scikit-learn.org/</li>
+<li><strong>XGBoost:</strong> https://xgboost.readthedocs.io/</li>
+</ol>
+<hr />
+<h2>9. Screenshots</h2>
+<h3>Screenshot 1: Streamlit App Interface</h3>
+<p>[Screenshot to be added - showing interactive frontend]</p>
+<h3>Screenshot 2: Model Prediction Example</h3>
+<p>[Screenshot to be added - showing prediction with input data]</p>
+<h3>Screenshot 3: Model Performance Metrics</h3>
+<p>[Screenshot to be added - showing evaluation metrics display]</p>
+<hr />
+<p><strong>End of Submission Document</strong></p>
+</body>
+</html>
