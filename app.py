@@ -92,7 +92,8 @@ if models is None:
     st.stop()
 
 # Title
-st.title("Credit Risk Classification System")
+st.title("German Credit Risk Prediction")
+st.caption("Machine learning-based credit risk assessment using 6 classification models trained on German Credit Data")
 
 # Two-column layout
 col_left, col_right = st.columns([1, 2])
